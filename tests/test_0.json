@@ -1,15 +1,1 @@
-{
-    "X": [
-        {
-            "0": 5.8,
-            "1": 2.8,
-            "2": 5.1,
-            "3": 2.4
-        }
-    ],
-    "y": [
-        {
-            "0": "Iris-virginica"
-        }
-    ]
-}
+[{"Pregnancies":5,"Glucose":116,"BloodPressure":74,"SkinThickness":0,"Insulin":0,"BMI":25.6,"DiabetesPedigreeFunction":0.201,"Age":30,"Outcome":0},{"Pregnancies":3,"Glucose":78,"BloodPressure":50,"SkinThickness":32,"Insulin":88,"BMI":31.0,"DiabetesPedigreeFunction":0.248,"Age":26,"Outcome":1},{"Pregnancies":10,"Glucose":115,"BloodPressure":0,"SkinThickness":0,"Insulin":0,"BMI":35.3,"DiabetesPedigreeFunction":0.134,"Age":29,"Outcome":0},{"Pregnancies":2,"Glucose":197,"BloodPressure":70,"SkinThickness":45,"Insulin":543,"BMI":30.5,"DiabetesPedigreeFunction":0.158,"Age":53,"Outcome":1},{"Pregnancies":8,"Glucose":125,"BloodPressure":96,"SkinThickness":0,"Insulin":0,"BMI":0.0,"DiabetesPedigreeFunction":0.232,"Age":54,"Outcome":1}]

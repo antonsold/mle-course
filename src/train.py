@@ -39,7 +39,7 @@ class Model:
         self.X_train = sc.fit_transform(self.X_train)
         self.X_test = sc.transform(self.X_test)
         params = {'path': self.scaler_path}
-        return self.save_model(sc, self.scaler_path, 'scaler', params)
+        return self.save_model(sc, self.scaler_path, 'SCALER', params)
 
     def log_reg(self, predict=False) -> bool:
         classifier = LogisticRegression()
