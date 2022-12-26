@@ -11,7 +11,7 @@ TEST_SIZE = 0.2
 SHOW_LOG = True
 
 
-class DataMaker():
+class DataMaker:
 
     def __init__(self) -> None:
         logger = Logger(SHOW_LOG)
