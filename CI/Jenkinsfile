@@ -32,66 +32,61 @@ options {
 				}
 			}
 
-//         stage('Login'){
-//             steps{
-//
-//                 bat encoding: 'UTF-8', script: 'docker login -u %DOCKERHUB_CREDS_USR% -p %DOCKERHUB_CREDS_PSW%'
-//                 }
-//             }
-//
-//         stage('Create and run docker container') {
-//             steps {
-//                 script {
-//                     try {
-//                         bat encoding: 'UTF-8', script: 'cd mle-course && docker-compose build'
-//                         }
-//
-//                     finally {
-//                     bat encoding: 'UTF-8', script: '''
-//                         cd mle-course
-//                         docker-compose up -d
-//                         '''
-//                         }
-// 				    }
-//                 }
-//             }
-//
-//         stage('Checkout container logs') {
-//             steps {
-//                 dir("mle-course") {
-//                         bat encoding: 'UTF-8', script: '''
-//                             docker-compose up -d
-//                             for /f %%i in ('docker ps -qf "name=^mle-course-web-1"') do set containerId=%%i
-//                             echo %containerId%
-//                             IF "%containerId%" == "" (
-//                                 echo "No container running"
-//                             )
-//                             ELSE (
-//                                 docker logs --tail 1000 -f %containerId%
-//                                 )
-//                         '''
-//                     }
-//             }
-//         }
-//
-//         stage('Checkout coverage report'){
-//             steps{
-//                 dir("mle-course"){
-//                     bat encoding: 'UTF-8', script: '''
-//                     docker-compose logs -t --tail 10
-//                     '''
-//                 }
-//             }
-//         }
-//
-//         stage('Push'){
-//             steps{
-//                 bat encoding: 'UTF-8', script: 'docker push asoldatenkov/mle-course:latest'
-//             }
-//         }
-		stage ('Invoke CD pipeline') {
+        stage('Login'){
+            steps{
+
+                bat encoding: 'UTF-8', script: 'docker login -u %DOCKERHUB_CREDS_USR% -p %DOCKERHUB_CREDS_PSW%'
+                }
+            }
+
+        stage('Create and run docker container') {
             steps {
-                build job: 'mle-course-CD'
+                script {
+                    try {
+                        bat encoding: 'UTF-8', script: 'cd mle-course && docker-compose build'
+                        }
+
+                    finally {
+                    bat encoding: 'UTF-8', script: '''
+                        cd mle-course
+                        docker-compose up -d
+                        '''
+                        }
+				    }
+                }
+            }
+
+        stage('Checkout container logs') {
+            steps {
+                dir("mle-course") {
+                        bat encoding: 'UTF-8', script: '''
+                            docker-compose up -d
+                            for /f %%i in ('docker ps -qf "name=^mle-course-web-1"') do set containerId=%%i
+                            echo %containerId%
+                            IF "%containerId%" == "" (
+                                echo "No container running"
+                            )
+                            ELSE (
+                                docker logs --tail 1000 -f %containerId%
+                                )
+                        '''
+                    }
+            }
+        }
+
+        stage('Checkout coverage report'){
+            steps{
+                dir("mle-course"){
+                    bat encoding: 'UTF-8', script: '''
+                    docker-compose logs -t --tail 10
+                    '''
+                }
+            }
+        }
+
+        stage('Push'){
+            steps{
+                bat encoding: 'UTF-8', script: 'docker push asoldatenkov/mle-course:latest'
             }
         }
 	}
