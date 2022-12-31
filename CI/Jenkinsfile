@@ -22,7 +22,12 @@ options {
 
         stage('Checkout repo dir') {
             steps {
-                bat encoding: 'UTF-8', script: 'cd mle-course && dvc pull && dir'
+                bat encoding: 'UTF-8', script: 'cd mle-course && dir'
+				}
+			}
+			
+		stage('Fetch data') {
+            steps {cd mle-course && dvc pull'
 				}
 			}
 
