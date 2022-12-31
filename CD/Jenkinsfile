@@ -35,11 +35,6 @@ options {
                 '''
             }
         }
-		stage ('Invoke CD pipeline') {
-            steps {
-                build job: 'mle-course-CD'
-            }
-        }
 	}
 
     post {
