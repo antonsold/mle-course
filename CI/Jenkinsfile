@@ -27,7 +27,8 @@ options {
 			}
 			
 		stage('Fetch data') {
-            steps {cd mle-course && dvc pull'
+            steps {
+				bat encoding: 'UTF-8', script: 'dvc pull'
 				}
 			}
 
