@@ -129,8 +129,8 @@ dmypy.json
 .pyre/
 
 # Place data for non local DVC
-/data
-!/data/diabetes.csv.dvc 
+#/data
+#!/data/diabetes.csv.dvc 
 
 /experiments
 
