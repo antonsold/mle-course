@@ -42,7 +42,7 @@ class Model:
         return self.save_model(sc, self.scaler_path, 'SCALER', params)
 
     def log_reg(self, predict=False) -> bool:
-        classifier = LogisticRegression()
+        classifier = LogisticRegression(solver='liblinear')
         try:
             classifier.fit(self.X_train, self.y_train['Outcome'])
         except Exception:
