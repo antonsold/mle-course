@@ -1,0 +1,71 @@
+Branch indexing
+23:17:10 Connecting to https://api.github.com using antonsold/******
+Obtained CD/Jenkinsfile from d72baed934678519ec6d67af567960de1c85b50c+374d6a5805b7aa314ad24a43772cc7701eb737dd (c3cf951eafd5acd3fd0163313900c7192fddefe7)
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\Users\User\.jenkins\workspace\mle-course-CD_PR-5
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of %DOCKERHUB_CREDS% or %DOCKERHUB_CREDS_PSW%
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timestamps
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Login)
+[Pipeline] bat
+23:17:12  
+23:17:12  C:\Users\User\.jenkins\workspace\mle-course-CD_PR-5>docker login -u asoldatenkov -p **** 
+23:17:12  WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+23:17:13  [2023-01-07T20:17:13.640021800Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:17:15  Login Succeeded
+23:17:15  [2023-01-07T20:17:15.113774800Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:17:15  
+23:17:15  Logging in with your password grants your terminal complete access to your account. 
+23:17:15  For better security, log in with a limited-privilege personal access token. Learn more at https://docs.docker.com/go/access-tokens/
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Pull image)
+[Pipeline] bat
+23:17:15  
+23:17:15  C:\Users\User\.jenkins\workspace\mle-course-CD_PR-5>docker pull asoldatenkov/mle-course:latest 
+23:17:15  [2023-01-07T20:17:15.890376000Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:17:17  latest: Pulling from asoldatenkov/mle-course
+23:17:17  Digest: sha256:30f8a0cd4804aabfc618268b3b30125b140cfff9783f8d35e1646feb2cace53b
+23:17:17  Status: Image is up to date for asoldatenkov/mle-course:latest
+23:17:17  docker.io/asoldatenkov/mle-course:latest
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Run container)
+[Pipeline] bat
+23:17:18  
+23:17:18  C:\Users\User\.jenkins\workspace\mle-course-CD_PR-5>docker run --name mle-course -p 80:5556 -d asoldatenkov/mle-course:latest 
+23:17:18  0d8a134f1323da0b6fa9c2a6d54fb17e3716a82c93675291073e1202f81de7fe
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] bat
+23:17:19  
+23:17:19  C:\Users\User\.jenkins\workspace\mle-course-CD_PR-5>docker stop mle-course   && docker logout 
+23:17:19  mle-course
+23:17:19  Removing login credentials for https://index.docker.io/v1/
+23:17:19  [2023-01-07T20:17:19.812831400Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timestamps
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+
+GitHub has been notified of this commit’s build result
+
+Finished: SUCCESS

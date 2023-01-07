@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDS=credentials('mle-template')
+        DOCKERHUB_CREDS=credentials('mle-course')
         LC_ALL = "en_US.UTF-8"
         LANG    = "en_US.UTF-8"
         LANGUAGE = "en_US.UTF-8"
@@ -16,17 +16,14 @@ options {
 
         stage('Login'){
             steps{
-                //withCredentials([usernamePassword(credentialsId: 'mle-template', passwordVariable: 'DOCKER_REGISTRY_PWD', usernameVariable: 'DOCKER_REGISTRY_USER')]){
-                //bat 'chcp 65001 && echo %DOCKER_REGISTRY_PWD% | docker login -u %DOCKER_REGISTRY_USER% --password-stdin'}
-                //bat 'chcp 65001 && echo %DOCKERHUB_CREDS_PSW% | docker login -u %DOCKERHUB_CREDS_USR% --password-stdin'
-                bat 'docker login -u %DOCKERHUB_CREDS_USR% -p %DOCKERHUB_CREDS_PSW%'
+                bat encoding: 'UTF-8', script: 'docker login -u %DOCKERHUB_CREDS_USR% -p %DOCKERHUB_CREDS_PSW%'
                 }
             }
 
         stage('Pull image'){
             steps{
-                bat '''
-                        docker pull altairzero/mle-template:latest
+                bat encoding: 'UTF-8', script:'''
+                        docker pull asoldatenkov/mle-course:latest
                 '''
             }
         }
@@ -34,7 +31,7 @@ options {
         stage('Run container'){
             steps{
                 bat '''
-                        docker run --name mle-template -p 80:5556 -d altairzero/mle-template:latest
+                        docker run --name mle-course -p 80:5556 -d asoldatenkov/mle-course:latest
                 '''
             }
         }
@@ -42,7 +39,7 @@ options {
 
     post {
         always {
-            bat 'docker stop mle-template && docker logout'
+            bat 'docker stop mle-course && docker logout'
         }
     }
 }

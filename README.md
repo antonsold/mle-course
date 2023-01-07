@@ -1,2 +1,2 @@
 # mle-template
-Classic MLE template with CI/CD pipelines
+Classic MLE template with CI/CD pipelines.
