@@ -1,0 +1,806 @@
+Started by user Anton Soldatenkov
+23:04:34 Connecting to https://api.github.com using antonsold/******
+Obtained CI/Jenkinsfile from d72baed934678519ec6d67af567960de1c85b50c
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on Jenkins in C:\Users\User\.jenkins\workspace\mle-course-CI_dev
+[Pipeline] {
+[Pipeline] withCredentials
+Masking supported pattern matches of %DOCKERHUB_CREDS% or %DOCKERHUB_CREDS_PSW%
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] timestamps
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone github repository)
+[Pipeline] cleanWs
+23:04:37  [WS-CLEANUP] Deleting project workspace...
+23:04:37  [WS-CLEANUP] Deferred wipeout is used...
+23:04:37  [WS-CLEANUP] done
+[Pipeline] bat
+23:04:37  
+23:04:37  C:\Users\User\.jenkins\workspace\mle-course-CI_dev>git clone -b main https://github.com/antonsold/mle-course 
+23:04:37  Cloning into 'mle-course'...
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checkout repo dir)
+[Pipeline] bat
+23:04:42  
+23:04:42  C:\Users\User\.jenkins\workspace\mle-course-CI_dev>cd mle-course   && dir
+23:04:42   ??? ? ?????? C ?? ????? ???.
+23:04:42   ????? ????? ??: 0E43-3670
+23:04:42  
+23:04:42   ???????? ????? C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course
+23:04:42  
+23:04:42  07.01.2023  23:04    <DIR>          .
+23:04:42  07.01.2023  23:04    <DIR>          ..
+23:04:42  07.01.2023  23:04    <DIR>          .dvc
+23:04:42  07.01.2023  23:04             2?021 .gitignore
+23:04:42  07.01.2023  23:04    <DIR>          CD
+23:04:42  07.01.2023  23:04    <DIR>          CI
+23:04:42  07.01.2023  23:04               642 config.ini
+23:04:42  07.01.2023  23:04    <DIR>          data
+23:04:42  07.01.2023  23:04               367 docker-compose.yml
+23:04:42  07.01.2023  23:04               116 Dockerfile
+23:04:42  07.01.2023  23:04    <DIR>          experiments
+23:04:42  07.01.2023  23:04    <DIR>          notebooks
+23:04:42  07.01.2023  23:04                59 README.md
+23:04:42  07.01.2023  23:04               110 requirements.txt
+23:04:42  07.01.2023  23:04    <DIR>          src
+23:04:42  07.01.2023  23:04    <DIR>          tests
+23:04:42                 6 ????          3?315 ????
+23:04:42                10 ?????  15?504?404?480 ???? ??????
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Fetch data)
+[Pipeline] bat
+23:04:42  
+23:04:42  C:\Users\User\.jenkins\workspace\mle-course-CI_dev>cd mle-course   && dvc pull 
+23:04:44  A       data\diabetes.csv
+23:04:44  1 file added
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Login)
+[Pipeline] bat
+23:04:44  
+23:04:44  C:\Users\User\.jenkins\workspace\mle-course-CI_dev>docker login -u asoldatenkov -p **** 
+23:04:44  WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+23:04:54  [2023-01-07T20:04:52.902482500Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:04:54  Login Succeeded
+23:04:54  [2023-01-07T20:04:54.390066100Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:04:54  
+23:04:54  Logging in with your password grants your terminal complete access to your account. 
+23:04:54  For better security, log in with a limited-privilege personal access token. Learn more at https://docs.docker.com/go/access-tokens/
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Create and run docker container)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] bat
+23:04:54  
+23:04:54  C:\Users\User\.jenkins\workspace\mle-course-CI_dev>cd mle-course   && docker-compose build 
+23:04:55  #1 [internal] load build definition from Dockerfile
+23:04:55  #1 transferring dockerfile:
+23:04:55  #1 transferring dockerfile: 153B done
+23:04:55  #1 DONE 0.0s
+23:04:55  
+23:04:55  #2 [internal] load .dockerignore
+23:04:55  #2 transferring context: 2B done
+23:04:55  #2 DONE 0.0s
+23:04:55  [2023-01-07T20:04:55.746379300Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:04:56  
+23:04:56  #3 [internal] load metadata for docker.io/library/python:3.10-slim
+23:04:56  [2023-01-07T20:04:55.863351500Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:04:56  [2023-01-07T20:04:55.960979700Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:04:56  #3 ...
+23:04:56  
+23:04:56  #4 [auth] library/python:pull token for registry-1.docker.io
+23:04:56  #4 DONE 0.0s
+23:04:56  
+23:04:56  #3 [internal] load metadata for docker.io/library/python:3.10-slim
+23:04:57  #3 DONE 1.3s
+23:04:57  
+23:04:57  #5 [1/4] FROM docker.io/library/python:3.10-slim@sha256:e5c7f6da1694b867cc209956f9040e98ae372290f108f7f3d2dc84a331fe2801
+23:04:57  #5 DONE 0.0s
+23:04:57  
+23:04:57  #6 [internal] load build context
+23:04:57  #6 transferring context: 433.12kB 0.0s done
+23:04:57  #6 DONE 0.1s
+23:04:57  
+23:04:57  #7 [2/4] WORKDIR /app
+23:04:57  #7 CACHED
+23:04:57  
+23:04:57  #8 [3/4] ADD . /app
+23:04:57  #8 DONE 0.1s
+23:04:57  
+23:04:57  #9 [4/4] RUN pip install -r requirements.txt
+23:05:00  #9 3.221 Collecting awscli==1.27.9
+23:05:00  #9 3.424   Downloading awscli-1.27.9-py3-none-any.whl (3.9 MB)
+23:05:01  #9 4.379      ???????????????????????????????????????? 3.9/3.9 MB 4.2 MB/s eta 0:00:00
+23:05:02  #9 4.949 Collecting coverage==6.5.0
+23:05:02  #9 4.984   Downloading coverage-6.5.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (213 kB)
+23:05:02  #9 5.033      ??????????????????????????????????????? 213.3/213.3 kB 4.6 MB/s eta 0:00:00
+23:05:02  #9 5.278 Collecting dvc==2.28.0
+23:05:02  #9 5.319   Downloading dvc-2.28.0-py3-none-any.whl (379 kB)
+23:05:02  #9 5.405      ??????????????????????????????????????? 379.7/379.7 kB 4.4 MB/s eta 0:00:00
+23:05:02  #9 5.765 Collecting numpy==1.23.4
+23:05:03  #9 5.802   Downloading numpy-1.23.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (17.1 MB)
+23:05:08  #9 10.90      ???????????????????????????????????????? 17.1/17.1 MB 4.6 MB/s eta 0:00:00
+23:05:08  #9 11.24 Collecting pandas==1.5.1
+23:05:08  #9 11.28   Downloading pandas-1.5.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (12.1 MB)
+23:05:11  #9 13.79      ???????????????????????????????????????? 12.1/12.1 MB 4.6 MB/s eta 0:00:00
+23:05:11  #9 14.08 Collecting scikit-learn==1.1.3
+23:05:11  #9 14.11   Downloading scikit_learn-1.1.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (30.5 MB)
+23:05:21  #9 23.03      ???????????????????????????????????????? 30.5/30.5 MB 4.1 MB/s eta 0:00:00
+23:05:21  #9 23.22 Collecting pyyaml==5.4.1
+23:05:21  #9 23.25   Downloading PyYAML-5.4.1.tar.gz (175 kB)
+23:05:21  #9 23.29      ??????????????????????????????????????? 175.1/175.1 kB 5.4 MB/s eta 0:00:00
+23:05:21  #9 23.47   Installing build dependencies: started
+23:05:25  #9 27.47   Installing build dependencies: finished with status 'done'
+23:05:25  #9 27.47   Getting requirements to build wheel: started
+23:05:25  #9 28.50   Getting requirements to build wheel: finished with status 'done'
+23:05:25  #9 28.50   Preparing metadata (pyproject.toml): started
+23:05:26  #9 28.82   Preparing metadata (pyproject.toml): finished with status 'done'
+23:05:26  #9 28.88 Collecting s3transfer<0.7.0,>=0.6.0
+23:05:26  #9 28.91   Downloading s3transfer-0.6.0-py3-none-any.whl (79 kB)
+23:05:26  #9 28.92      ???????????????????????????????????????? 79.6/79.6 kB 5.6 MB/s eta 0:00:00
+23:05:26  #9 28.99 Collecting colorama<0.4.5,>=0.2.5
+23:05:26  #9 29.02   Downloading colorama-0.4.4-py2.py3-none-any.whl (16 kB)
+23:05:26  #9 29.08 Collecting rsa<4.8,>=3.1.2
+23:05:26  #9 29.11   Downloading rsa-4.7.2-py3-none-any.whl (34 kB)
+23:05:27  #9 29.73 Collecting botocore==1.29.9
+23:05:27  #9 29.76   Downloading botocore-1.29.9-py3-none-any.whl (9.9 MB)
+23:05:31  #9 33.84      ???????????????????????????????????????? 9.9/9.9 MB 2.4 MB/s eta 0:00:00
+23:05:31  #9 33.94 Collecting docutils<0.17,>=0.10
+23:05:31  #9 33.97   Downloading docutils-0.16-py2.py3-none-any.whl (548 kB)
+23:05:31  #9 34.14      ??????????????????????????????????????? 548.2/548.2 kB 3.4 MB/s eta 0:00:00
+23:05:31  #9 34.32 Collecting zc.lockfile>=1.2.1
+23:05:31  #9 34.35   Downloading zc.lockfile-2.0-py2.py3-none-any.whl (9.7 kB)
+23:05:31  #9 34.45 Collecting dvc-data==0.13.0
+23:05:31  #9 34.50   Downloading dvc_data-0.13.0-py3-none-any.whl (47 kB)
+23:05:31  #9 34.51      ???????????????????????????????????????? 47.0/47.0 kB 3.0 MB/s eta 0:00:00
+23:05:31  #9 34.58 Collecting tomlkit>=0.11.1
+23:05:31  #9 34.61   Downloading tomlkit-0.11.6-py3-none-any.whl (35 kB)
+23:05:31  #9 34.67 Collecting appdirs>=1.4.3
+23:05:31  #9 34.70   Downloading appdirs-1.4.4-py2.py3-none-any.whl (9.6 kB)
+23:05:32  #9 34.77 Collecting shtab<2,>=1.3.4
+23:05:32  #9 34.80   Downloading shtab-1.5.8-py2.py3-none-any.whl (13 kB)
+23:05:32  #9 34.88 Collecting requests>=2.22.0
+23:05:32  #9 34.91   Downloading requests-2.28.1-py3-none-any.whl (62 kB)
+23:05:32  #9 34.93      ???????????????????????????????????????? 62.8/62.8 kB 3.5 MB/s eta 0:00:00
+23:05:32  #9 34.98 Collecting dvc-http==2.27.2
+23:05:32  #9 35.01   Downloading dvc_http-2.27.2-py3-none-any.whl (11 kB)
+23:05:32  #9 35.06 Collecting pathspec<0.10.0,>=0.9.0
+23:05:32  #9 35.09   Downloading pathspec-0.9.0-py2.py3-none-any.whl (31 kB)
+23:05:32  #9 35.16 Collecting funcy>=1.14
+23:05:32  #9 35.19   Downloading funcy-1.17-py2.py3-none-any.whl (33 kB)
+23:05:32  #9 35.37 Collecting psutil>=5.8.0
+23:05:32  #9 35.40   Downloading psutil-5.9.4-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (280 kB)
+23:05:32  #9 35.48      ??????????????????????????????????????? 280.2/280.2 kB 3.5 MB/s eta 0:00:00
+23:05:32  #9 35.62 Collecting rich>=10.13.0
+23:05:32  #9 35.65   Downloading rich-13.0.1-py3-none-any.whl (238 kB)
+23:05:32  #9 35.71      ??????????????????????????????????????? 238.1/238.1 kB 3.6 MB/s eta 0:00:00
+23:05:32  #9 35.78 Collecting pydot>=1.2.4
+23:05:32  #9 35.82   Downloading pydot-1.4.2-py2.py3-none-any.whl (21 kB)
+23:05:33  #9 35.93 Collecting tqdm<5,>=4.63.1
+23:05:33  #9 35.96   Downloading tqdm-4.64.1-py2.py3-none-any.whl (78 kB)
+23:05:33  #9 35.98      ???????????????????????????????????????? 78.5/78.5 kB 3.2 MB/s eta 0:00:00
+23:05:33  #9 36.04 Collecting dpath<3,>=2.0.2
+23:05:33  #9 36.07   Downloading dpath-2.1.3-py3-none-any.whl (17 kB)
+23:05:33  #9 36.13 Collecting flatten-dict<1,>=0.4.1
+23:05:33  #9 36.16   Downloading flatten_dict-0.4.2-py2.py3-none-any.whl (9.7 kB)
+23:05:33  #9 36.52 Collecting ruamel.yaml>=0.17.11
+23:05:33  #9 36.55   Downloading ruamel.yaml-0.17.21-py3-none-any.whl (109 kB)
+23:05:33  #9 36.58      ??????????????????????????????????????? 109.5/109.5 kB 3.6 MB/s eta 0:00:00
+23:05:33  #9 36.63 Collecting flufl.lock>=5
+23:05:33  #9 36.66   Downloading flufl.lock-7.1.1-py3-none-any.whl (11 kB)
+23:05:34  #9 36.79 Collecting networkx>=2.5
+23:05:34  #9 36.82   Downloading networkx-2.8.8-py3-none-any.whl (2.0 MB)
+23:05:34  #9 37.33      ???????????????????????????????????????? 2.0/2.0 MB 4.0 MB/s eta 0:00:00
+23:05:34  #9 37.43 Collecting packaging>=19.0
+23:05:34  #9 37.46   Downloading packaging-22.0-py3-none-any.whl (42 kB)
+23:05:34  #9 37.47      ???????????????????????????????????????? 42.6/42.6 kB 3.0 MB/s eta 0:00:00
+23:05:34  #9 37.55 Collecting typing-extensions>=3.7.4
+23:05:34  #9 37.58   Downloading typing_extensions-4.4.0-py3-none-any.whl (26 kB)
+23:05:34  #9 37.65 Collecting configobj>=5.0.6
+23:05:34  #9 37.69   Downloading configobj-5.0.6.tar.gz (33 kB)
+23:05:34  #9 37.75   Preparing metadata (setup.py): started
+23:05:36  #9 38.78   Preparing metadata (setup.py): finished with status 'done'
+23:05:36  #9 38.85 Collecting voluptuous>=0.11.7
+23:05:36  #9 38.89   Downloading voluptuous-0.13.1-py3-none-any.whl (29 kB)
+23:05:36  #9 38.96 Collecting grandalf==0.6
+23:05:36  #9 39.02   Downloading grandalf-0.6-py3-none-any.whl (31 kB)
+23:05:36  #9 39.10 Collecting tabulate>=0.8.7
+23:05:36  #9 39.13   Downloading tabulate-0.9.0-py3-none-any.whl (35 kB)
+23:05:36  #9 39.21 Collecting iterative-telemetry==0.0.5
+23:05:36  #9 39.25   Downloading iterative_telemetry-0.0.5-py3-none-any.whl (9.3 kB)
+23:05:36  #9 39.40 Collecting pyparsing>=2.4.7
+23:05:36  #9 39.44   Downloading pyparsing-3.0.9-py3-none-any.whl (98 kB)
+23:05:36  #9 39.47      ???????????????????????????????????????? 98.3/98.3 kB 3.1 MB/s eta 0:00:00
+23:05:36  #9 39.54 Collecting pygtrie>=2.3.2
+23:05:36  #9 39.58   Downloading pygtrie-2.5.0-py3-none-any.whl (25 kB)
+23:05:36  #9 39.65 Collecting distro>=1.3.0
+23:05:37  #9 39.69   Downloading distro-1.8.0-py3-none-any.whl (20 kB)
+23:05:37  #9 39.75 Collecting dvc-task==0.1.2
+23:05:37  #9 39.78   Downloading dvc_task-0.1.2-py3-none-any.whl (22 kB)
+23:05:37  #9 39.87 Collecting dvclive>=0.10.0
+23:05:37  #9 39.90   Downloading dvclive-1.3.2-py3-none-any.whl (31 kB)
+23:05:37  #9 39.97 Collecting dvc-render==0.0.11
+23:05:37  #9 40.00   Downloading dvc_render-0.0.11-py3-none-any.whl (18 kB)
+23:05:37  #9 40.07 Collecting shortuuid>=0.5.0
+23:05:37  #9 40.10   Downloading shortuuid-1.0.11-py3-none-any.whl (10 kB)
+23:05:37  #9 40.17 Collecting scmrepo==0.1.1
+23:05:37  #9 40.21   Downloading scmrepo-0.1.1-py3-none-any.whl (47 kB)
+23:05:37  #9 40.27      ??????????????????????????????????????? 47.7/47.7 kB 716.5 kB/s eta 0:00:00
+23:05:37  #9 40.35 Collecting hydra-core>=1.1.0
+23:05:37  #9 40.38   Downloading hydra_core-1.3.1-py3-none-any.whl (154 kB)
+23:05:37  #9 40.42      ??????????????????????????????????????? 154.1/154.1 kB 4.1 MB/s eta 0:00:00
+23:05:37  #9 40.50 Collecting python-dateutil>=2.8.1
+23:05:37  #9 40.53   Downloading python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+23:05:37  #9 40.59      ??????????????????????????????????????? 247.7/247.7 kB 4.3 MB/s eta 0:00:00
+23:05:38  #9 40.69 Collecting pytz>=2020.1
+23:05:38  #9 40.72   Downloading pytz-2022.7-py2.py3-none-any.whl (499 kB)
+23:05:38  #9 40.84      ??????????????????????????????????????? 499.4/499.4 kB 4.5 MB/s eta 0:00:00
+23:05:38  #9 40.95 Collecting threadpoolctl>=2.0.0
+23:05:38  #9 40.99   Downloading threadpoolctl-3.1.0-py3-none-any.whl (14 kB)
+23:05:38  #9 41.06 Collecting joblib>=1.0.0
+23:05:38  #9 41.09   Downloading joblib-1.2.0-py3-none-any.whl (297 kB)
+23:05:38  #9 41.16      ??????????????????????????????????????? 298.0/298.0 kB 4.5 MB/s eta 0:00:00
+23:05:38  #9 41.38 Collecting scipy>=1.3.2
+23:05:38  #9 41.41   Downloading scipy-1.10.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (34.4 MB)
+23:05:48  #9 51.55      ???????????????????????????????????????? 34.4/34.4 MB 3.6 MB/s eta 0:00:00
+23:05:49  #9 51.72 Collecting urllib3<1.27,>=1.25.4
+23:05:49  #9 51.75   Downloading urllib3-1.26.13-py2.py3-none-any.whl (140 kB)
+23:05:49  #9 51.78      ??????????????????????????????????????? 140.6/140.6 kB 5.8 MB/s eta 0:00:00
+23:05:49  #9 51.83 Collecting jmespath<2.0.0,>=0.7.1
+23:05:49  #9 51.86   Downloading jmespath-1.0.1-py3-none-any.whl (20 kB)
+23:05:49  #9 51.96 Collecting dvc-objects==0.5.0
+23:05:49  #9 51.99   Downloading dvc_objects-0.5.0-py3-none-any.whl (32 kB)
+23:05:49  #9 52.05 Collecting dictdiffer>=0.8.1
+23:05:49  #9 52.08   Downloading dictdiffer-0.9.0-py2.py3-none-any.whl (16 kB)
+23:05:49  #9 52.14 Collecting attrs>=21.3.0
+23:05:49  #9 52.17   Downloading attrs-22.2.0-py3-none-any.whl (60 kB)
+23:05:49  #9 52.18      ???????????????????????????????????????? 60.0/60.0 kB 4.5 MB/s eta 0:00:00
+23:05:49  #9 52.24 Collecting diskcache>=5.2.1
+23:05:49  #9 52.27   Downloading diskcache-5.4.0-py3-none-any.whl (44 kB)
+23:05:49  #9 52.29      ???????????????????????????????????????? 45.0/45.0 kB 4.5 MB/s eta 0:00:00
+23:05:49  #9 52.33 Collecting nanotime>=0.5.2
+23:05:49  #9 52.36   Downloading nanotime-0.5.2.tar.gz (3.2 kB)
+23:05:49  #9 52.37   Preparing metadata (setup.py): started
+23:05:49  #9 52.59   Preparing metadata (setup.py): finished with status 'done'
+23:05:50  #9 52.67 Collecting aiohttp-retry>=2.5.0
+23:05:50  #9 52.70   Downloading aiohttp_retry-2.8.3-py3-none-any.whl (9.8 kB)
+23:05:50  #9 52.77 Collecting fsspec[http]
+23:05:50  #9 52.80   Downloading fsspec-2022.11.0-py3-none-any.whl (139 kB)
+23:05:50  #9 52.82      ??????????????????????????????????????? 139.5/139.5 kB 5.6 MB/s eta 0:00:00
+23:05:50  #9 52.97 Collecting kombu<6,>=5.2.0
+23:05:50  #9 53.00   Downloading kombu-5.2.4-py3-none-any.whl (189 kB)
+23:05:50  #9 53.04      ??????????????????????????????????????? 189.2/189.2 kB 5.2 MB/s eta 0:00:00
+23:05:50  #9 53.15 Collecting celery<6,>=5.2.0
+23:05:50  #9 53.18   Downloading celery-5.2.7-py3-none-any.whl (405 kB)
+23:05:50  #9 53.25      ??????????????????????????????????????? 405.6/405.6 kB 5.8 MB/s eta 0:00:00
+23:05:50  #9 53.32 Collecting future
+23:05:50  #9 53.36   Downloading future-0.18.2.tar.gz (829 kB)
+23:05:50  #9 53.51      ??????????????????????????????????????? 829.2/829.2 kB 5.5 MB/s eta 0:00:00
+23:05:50  #9 53.63   Preparing metadata (setup.py): started
+23:05:51  #9 53.92   Preparing metadata (setup.py): finished with status 'done'
+23:05:51  #9 54.01 Collecting filelock
+23:05:51  #9 54.04   Downloading filelock-3.9.0-py3-none-any.whl (9.7 kB)
+23:05:51  #9 54.32 Collecting dulwich>=0.20.46
+23:05:51  #9 54.35   Downloading dulwich-0.20.50-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (499 kB)
+23:05:51  #9 54.44      ??????????????????????????????????????? 500.0/500.0 kB 5.8 MB/s eta 0:00:00
+23:05:51  #9 54.52 Collecting gitpython>3
+23:05:51  #9 54.55   Downloading GitPython-3.1.30-py3-none-any.whl (184 kB)
+23:05:52  #9 54.59      ??????????????????????????????????????? 184.0/184.0 kB 6.2 MB/s eta 0:00:00
+23:05:52  #9 54.75 Collecting pygit2>=1.10.0
+23:05:52  #9 54.78   Downloading pygit2-1.11.1-cp310-cp310-manylinux_2_24_x86_64.whl (3.7 MB)
+23:05:52  #9 55.42      ???????????????????????????????????????? 3.7/3.7 MB 5.9 MB/s eta 0:00:00
+23:05:52  #9 55.57 Collecting asyncssh<3,>=2.7.1
+23:05:52  #9 55.62   Downloading asyncssh-2.13.0-py3-none-any.whl (348 kB)
+23:05:52  #9 55.69      ??????????????????????????????????????? 348.3/348.3 kB 5.9 MB/s eta 0:00:00
+23:05:53  #9 55.83 Collecting six
+23:05:53  #9 55.87   Downloading six-1.16.0-py2.py3-none-any.whl (11 kB)
+23:05:53  #9 56.04 Collecting dvc-studio-client>=0.3.0
+23:05:53  #9 56.08   Downloading dvc_studio_client-0.3.0-py3-none-any.whl (10.0 kB)
+23:05:53  #9 56.14 Collecting dvc-render[table]>=0.0.12
+23:05:53  #9 56.17   Downloading dvc_render-0.0.17-py3-none-any.whl (18 kB)
+23:05:53  #9 56.27 Collecting atpublic>=2.3
+23:05:53  #9 56.30   Downloading atpublic-3.1.1-py3-none-any.whl (4.8 kB)
+23:05:53  #9 56.37 Collecting antlr4-python3-runtime==4.9.*
+23:05:53  #9 56.41   Downloading antlr4-python3-runtime-4.9.3.tar.gz (117 kB)
+23:05:53  #9 56.47      ??????????????????????????????????????? 117.0/117.0 kB 1.9 MB/s eta 0:00:00
+23:05:53  #9 56.49   Preparing metadata (setup.py): started
+23:05:54  #9 56.71   Preparing metadata (setup.py): finished with status 'done'
+23:05:54  #9 56.81 Collecting omegaconf<2.4,>=2.2
+23:05:54  #9 56.84   Downloading omegaconf-2.3.0-py3-none-any.whl (79 kB)
+23:05:54  #9 56.86      ???????????????????????????????????????? 79.5/79.5 kB 4.4 MB/s eta 0:00:00
+23:05:54  #9 57.02 Collecting idna<4,>=2.5
+23:05:54  #9 57.05   Downloading idna-3.4-py3-none-any.whl (61 kB)
+23:05:54  #9 57.07      ???????????????????????????????????????? 61.5/61.5 kB 4.9 MB/s eta 0:00:00
+23:05:54  #9 57.13 Collecting certifi>=2017.4.17
+23:05:54  #9 57.16   Downloading certifi-2022.12.7-py3-none-any.whl (155 kB)
+23:05:54  #9 57.19      ??????????????????????????????????????? 155.3/155.3 kB 4.6 MB/s eta 0:00:00
+23:05:54  #9 57.32 Collecting charset-normalizer<3,>=2
+23:05:54  #9 57.35   Downloading charset_normalizer-2.1.1-py3-none-any.whl (39 kB)
+23:05:54  #9 57.45 Collecting pygments<3.0.0,>=2.6.0
+23:05:54  #9 57.49   Downloading Pygments-2.14.0-py3-none-any.whl (1.1 MB)
+23:05:55  #9 57.70      ???????????????????????????????????????? 1.1/1.1 MB 5.3 MB/s eta 0:00:00
+23:05:55  #9 57.81 Collecting commonmark<0.10.0,>=0.9.0
+23:05:55  #9 57.86   Downloading commonmark-0.9.1-py2.py3-none-any.whl (51 kB)
+23:05:55  #9 57.89      ???????????????????????????????????????? 51.1/51.1 kB 2.6 MB/s eta 0:00:00
+23:05:55  #9 58.01 Collecting pyasn1>=0.1.3
+23:05:55  #9 58.05   Downloading pyasn1-0.4.8-py2.py3-none-any.whl (77 kB)
+23:05:55  #9 58.09      ???????????????????????????????????????? 77.1/77.1 kB 3.3 MB/s eta 0:00:00
+23:05:55  #9 58.23 Collecting ruamel.yaml.clib>=0.2.6
+23:05:55  #9 58.26   Downloading ruamel.yaml.clib-0.2.7-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl (485 kB)
+23:05:55  #9 58.35      ??????????????????????????????????????? 485.6/485.6 kB 5.4 MB/s eta 0:00:00
+23:05:55  #9 58.57 Requirement already satisfied: setuptools in /usr/local/lib/python3.10/site-packages (from zc.lockfile>=1.2.1->dvc==2.28.0->-r requirements.txt (line 3)) (65.5.1)
+23:05:56  #9 58.96 Collecting aiohttp
+23:05:56  #9 58.99   Downloading aiohttp-3.8.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.0 MB)
+23:05:56  #9 59.18      ???????????????????????????????????????? 1.0/1.0 MB 5.4 MB/s eta 0:00:00
+23:05:56  #9 59.55 Collecting cryptography>=3.1
+23:05:56  #9 59.58   Downloading cryptography-39.0.0-cp36-abi3-manylinux_2_28_x86_64.whl (4.2 MB)
+23:05:57  #9 60.35      ???????????????????????????????????????? 4.2/4.2 MB 5.5 MB/s eta 0:00:00
+23:05:57  #9 60.57 Collecting vine<6.0,>=5.0.0
+23:05:57  #9 60.68   Downloading vine-5.0.0-py2.py3-none-any.whl (9.4 kB)
+23:05:58  #9 60.79 Collecting click-didyoumean>=0.0.3
+23:05:58  #9 60.82   Downloading click_didyoumean-0.3.0-py3-none-any.whl (2.7 kB)
+23:05:58  #9 60.87 Collecting click-plugins>=1.1.1
+23:05:58  #9 60.90   Downloading click_plugins-1.1.1-py2.py3-none-any.whl (7.5 kB)
+23:05:58  #9 60.97 Collecting billiard<4.0,>=3.6.4.0
+23:05:58  #9 61.00   Downloading billiard-3.6.4.0-py3-none-any.whl (89 kB)
+23:05:58  #9 61.04      ???????????????????????????????????????? 89.5/89.5 kB 2.6 MB/s eta 0:00:00
+23:05:58  #9 61.08 Collecting click-repl>=0.2.0
+23:05:58  #9 61.12   Downloading click_repl-0.2.0-py3-none-any.whl (5.2 kB)
+23:05:58  #9 61.18 Collecting click<9.0,>=8.0.3
+23:05:58  #9 61.22   Downloading click-8.1.3-py3-none-any.whl (96 kB)
+23:05:58  #9 61.25      ???????????????????????????????????????? 96.6/96.6 kB 2.6 MB/s eta 0:00:00
+23:05:58  #9 61.49 Collecting dvc-render[table]>=0.0.12
+23:05:58  #9 61.52   Downloading dvc_render-0.0.16-py3-none-any.whl (18 kB)
+23:05:58  #9 61.59   Downloading dvc_render-0.0.15-py3-none-any.whl (18 kB)
+23:05:58  #9 61.66   Downloading dvc_render-0.0.14-py3-none-any.whl (18 kB)
+23:05:59  #9 61.73   Downloading dvc_render-0.0.13-py3-none-any.whl (18 kB)
+23:05:59  #9 61.81   Downloading dvc_render-0.0.12-py3-none-any.whl (18 kB)
+23:05:59  #9 61.85 INFO: pip is looking at multiple versions of dulwich to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 61.85 Collecting dulwich>=0.20.46
+23:05:59  #9 61.89   Downloading dulwich-0.20.49-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (499 kB)
+23:05:59  #9 62.05      ??????????????????????????????????????? 500.0/500.0 kB 3.2 MB/s eta 0:00:00
+23:05:59  #9 62.07 INFO: pip is looking at multiple versions of diskcache to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 62.08 Collecting diskcache>=5.2.1
+23:05:59  #9 62.11   Downloading diskcache-5.3.0-py3-none-any.whl (44 kB)
+23:05:59  #9 62.12      ???????????????????????????????????????? 45.0/45.0 kB 3.1 MB/s eta 0:00:00
+23:05:59  #9 62.14 INFO: pip is looking at multiple versions of dictdiffer to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 62.14 Collecting dictdiffer>=0.8.1
+23:05:59  #9 62.17   Downloading dictdiffer-0.8.1-py2.py3-none-any.whl (16 kB)
+23:05:59  #9 62.19 INFO: pip is looking at multiple versions of commonmark to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 62.20 Collecting commonmark<0.10.0,>=0.9.0
+23:05:59  #9 62.23   Downloading commonmark-0.9.0-py2.py3-none-any.whl (51 kB)
+23:05:59  #9 62.25      ???????????????????????????????????????? 51.0/51.0 kB 3.1 MB/s eta 0:00:00
+23:05:59  #9 62.26 INFO: pip is looking at multiple versions of charset-normalizer to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 62.26 Collecting charset-normalizer<3,>=2
+23:05:59  #9 62.30   Downloading charset_normalizer-2.1.0-py3-none-any.whl (39 kB)
+23:05:59  #9 62.32 INFO: pip is looking at multiple versions of certifi to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 62.33 Collecting certifi>=2017.4.17
+23:05:59  #9 62.36   Downloading certifi-2022.9.24-py3-none-any.whl (161 kB)
+23:05:59  #9 62.42      ??????????????????????????????????????? 161.1/161.1 kB 2.7 MB/s eta 0:00:00
+23:05:59  #9 62.43 INFO: pip is looking at multiple versions of celery to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 62.43 Collecting celery<6,>=5.2.0
+23:05:59  #9 62.47   Downloading celery-5.2.6-py3-none-any.whl (405 kB)
+23:05:59  #9 62.59      ??????????????????????????????????????? 405.6/405.6 kB 3.4 MB/s eta 0:00:00
+23:05:59  #9 62.60 INFO: pip is looking at multiple versions of attrs to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 62.61 Collecting attrs>=21.3.0
+23:05:59  #9 62.64   Downloading attrs-22.1.0-py2.py3-none-any.whl (58 kB)
+23:05:59  #9 62.65      ???????????????????????????????????????? 58.8/58.8 kB 3.4 MB/s eta 0:00:00
+23:05:59  #9 62.66 INFO: pip is looking at multiple versions of atpublic to determine which version is compatible with other requirements. This could take a while.
+23:05:59  #9 62.67 Collecting atpublic>=2.3
+23:06:00  #9 62.70   Downloading atpublic-3.1-py3-none-any.whl (4.8 kB)
+23:06:00  #9 62.72 INFO: pip is looking at multiple versions of asyncssh to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 62.72 Collecting asyncssh<3,>=2.7.1
+23:06:00  #9 62.76   Downloading asyncssh-2.12.0-py3-none-any.whl (346 kB)
+23:06:00  #9 62.86      ??????????????????????????????????????? 346.7/346.7 kB 3.5 MB/s eta 0:00:00
+23:06:00  #9 62.87 INFO: pip is looking at multiple versions of aiohttp-retry to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 62.88 Collecting aiohttp-retry>=2.5.0
+23:06:00  #9 62.92   Downloading aiohttp_retry-2.6.1-py3-none-any.whl (8.7 kB)
+23:06:00  #9 62.94 INFO: pip is looking at multiple versions of zc-lockfile to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 62.94 Collecting zc.lockfile>=1.2.1
+23:06:00  #9 62.98   Downloading zc.lockfile-1.4.tar.gz (11 kB)
+23:06:00  #9 62.99   Preparing metadata (setup.py): started
+23:06:00  #9 63.23   Preparing metadata (setup.py): finished with status 'done'
+23:06:00  #9 63.24 INFO: pip is looking at multiple versions of voluptuous to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 63.24 Collecting voluptuous>=0.11.7
+23:06:00  #9 63.28   Downloading voluptuous-0.13.0-py3-none-any.whl (29 kB)
+23:06:00  #9 63.30 INFO: pip is looking at multiple versions of typing-extensions to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 63.30 Collecting typing-extensions>=3.7.4
+23:06:00  #9 63.33   Downloading typing_extensions-4.3.0-py3-none-any.whl (25 kB)
+23:06:00  #9 63.35 INFO: pip is looking at multiple versions of tqdm to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 63.36 Collecting tqdm<5,>=4.63.1
+23:06:00  #9 63.39   Downloading tqdm-4.64.0-py2.py3-none-any.whl (78 kB)
+23:06:00  #9 63.41      ???????????????????????????????????????? 78.4/78.4 kB 3.8 MB/s eta 0:00:00
+23:06:00  #9 63.42 INFO: pip is looking at multiple versions of tomlkit to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 63.43 Collecting tomlkit>=0.11.1
+23:06:00  #9 63.46   Downloading tomlkit-0.11.5-py3-none-any.whl (35 kB)
+23:06:00  #9 63.48 INFO: pip is looking at multiple versions of threadpoolctl to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 63.49 Collecting threadpoolctl>=2.0.0
+23:06:00  #9 63.55   Downloading threadpoolctl-3.0.0-py3-none-any.whl (14 kB)
+23:06:00  #9 63.56 INFO: pip is looking at multiple versions of tabulate to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 63.57 Collecting tabulate>=0.8.7
+23:06:00  #9 63.60   Downloading tabulate-0.8.10-py3-none-any.whl (29 kB)
+23:06:00  #9 63.62 INFO: pip is looking at multiple versions of shtab to determine which version is compatible with other requirements. This could take a while.
+23:06:00  #9 63.62 Collecting shtab<2,>=1.3.4
+23:06:00  #9 63.67   Downloading shtab-1.5.7-py2.py3-none-any.whl (13 kB)
+23:06:01  #9 63.68 INFO: pip is looking at multiple versions of shortuuid to determine which version is compatible with other requirements. This could take a while.
+23:06:01  #9 63.69 Collecting shortuuid>=0.5.0
+23:06:01  #9 63.73   Downloading shortuuid-1.0.10-py3-none-any.whl (10 kB)
+23:06:01  #9 63.75 INFO: pip is looking at multiple versions of scipy to determine which version is compatible with other requirements. This could take a while.
+23:06:01  #9 63.75 Collecting scipy>=1.3.2
+23:06:01  #9 63.79   Downloading scipy-1.9.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (33.7 MB)
+23:06:09  #9 71.09      ???????????????????????????????????????? 33.7/33.7 MB 4.1 MB/s eta 0:00:00
+23:06:09  #9 71.20 INFO: pip is looking at multiple versions of s3transfer to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.20 INFO: pip is looking at multiple versions of ruamel-yaml to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.21 Collecting ruamel.yaml>=0.17.11
+23:06:09  #9 71.24   Downloading ruamel.yaml-0.17.20-py3-none-any.whl (109 kB)
+23:06:09  #9 71.27      ??????????????????????????????????????? 109.5/109.5 kB 5.0 MB/s eta 0:00:00
+23:06:09  #9 71.28 INFO: pip is looking at multiple versions of rsa to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.28 Collecting rsa<4.8,>=3.1.2
+23:06:09  #9 71.31   Downloading rsa-4.7.1-py3-none-any.whl (36 kB)
+23:06:09  #9 71.33 INFO: pip is looking at multiple versions of rich to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.34 Collecting rich>=10.13.0
+23:06:09  #9 71.37   Downloading rich-13.0.0-py3-none-any.whl (238 kB)
+23:06:09  #9 71.42      ??????????????????????????????????????? 238.1/238.1 kB 5.3 MB/s eta 0:00:00
+23:06:09  #9 71.43 INFO: pip is looking at multiple versions of requests to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.44 Collecting requests>=2.22.0
+23:06:09  #9 71.48   Downloading requests-2.28.0-py3-none-any.whl (62 kB)
+23:06:09  #9 71.49      ???????????????????????????????????????? 62.8/62.8 kB 4.8 MB/s eta 0:00:00
+23:06:09  #9 71.50 INFO: pip is looking at multiple versions of pytz to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.51 Collecting pytz>=2020.1
+23:06:09  #9 71.54   Downloading pytz-2022.6-py2.py3-none-any.whl (498 kB)
+23:06:09  #9 71.63      ??????????????????????????????????????? 498.1/498.1 kB 5.4 MB/s eta 0:00:00
+23:06:09  #9 71.65 INFO: pip is looking at multiple versions of python-dateutil to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.65 Collecting python-dateutil>=2.8.1
+23:06:09  #9 71.70   Downloading python_dateutil-2.8.1-py2.py3-none-any.whl (227 kB)
+23:06:09  #9 71.76      ??????????????????????????????????????? 227.2/227.2 kB 4.8 MB/s eta 0:00:00
+23:06:09  #9 71.77 INFO: pip is looking at multiple versions of pyparsing to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.77 Collecting pyparsing>=2.4.7
+23:06:09  #9 71.81   Downloading pyparsing-3.0.8-py3-none-any.whl (98 kB)
+23:06:09  #9 71.82      ???????????????????????????????????????? 98.5/98.5 kB 5.7 MB/s eta 0:00:00
+23:06:09  #9 71.83 INFO: pip is looking at multiple versions of pygtrie to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 71.84 Collecting pygtrie>=2.3.2
+23:06:09  #9 71.89   Downloading pygtrie-2.4.2.tar.gz (35 kB)
+23:06:09  #9 71.91   Preparing metadata (setup.py): started
+23:06:09  #9 72.16   Preparing metadata (setup.py): finished with status 'done'
+23:06:09  #9 72.17 INFO: pip is looking at multiple versions of pydot to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 72.17 Collecting pydot>=1.2.4
+23:06:09  #9 72.21   Downloading pydot-1.4.1-py2.py3-none-any.whl (19 kB)
+23:06:09  #9 72.22 INFO: pip is looking at multiple versions of psutil to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 72.23 Collecting psutil>=5.8.0
+23:06:09  #9 72.26   Downloading psutil-5.9.3-cp310-cp310-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (292 kB)
+23:06:09  #9 72.31      ??????????????????????????????????????? 292.3/292.3 kB 5.5 MB/s eta 0:00:00
+23:06:09  #9 72.32 INFO: pip is looking at multiple versions of pathspec to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 72.33 INFO: pip is looking at multiple versions of packaging to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 72.33 Collecting packaging>=19.0
+23:06:09  #9 72.36   Downloading packaging-21.3-py3-none-any.whl (40 kB)
+23:06:09  #9 72.37      ???????????????????????????????????????? 40.8/40.8 kB 3.7 MB/s eta 0:00:00
+23:06:09  #9 72.38 INFO: pip is looking at multiple versions of networkx to determine which version is compatible with other requirements. This could take a while.
+23:06:09  #9 72.39 Collecting networkx>=2.5
+23:06:09  #9 72.43   Downloading networkx-2.8.7-py3-none-any.whl (2.0 MB)
+23:06:10  #9 72.77      ???????????????????????????????????????? 2.0/2.0 MB 6.0 MB/s eta 0:00:00
+23:06:10  #9 72.80 INFO: pip is looking at multiple versions of joblib to determine which version is compatible with other requirements. This could take a while.
+23:06:10  #9 72.81 Collecting joblib>=1.0.0
+23:06:10  #9 72.84   Downloading joblib-1.1.1-py2.py3-none-any.whl (309 kB)
+23:06:10  #9 72.90      ??????????????????????????????????????? 309.8/309.8 kB 5.8 MB/s eta 0:00:00
+23:06:10  #9 72.92 INFO: pip is looking at multiple versions of antlr4-python3-runtime to determine which version is compatible with other requirements. This could take a while.
+23:06:10  #9 72.93 Collecting antlr4-python3-runtime==4.9.*
+23:06:10  #9 72.99   Downloading antlr4-python3-runtime-4.9.2.tar.gz (117 kB)
+23:06:10  #9 73.03      ??????????????????????????????????????? 117.2/117.2 kB 4.6 MB/s eta 0:00:00
+23:06:10  #9 73.05   Preparing metadata (setup.py): started
+23:06:10  #9 73.31   Preparing metadata (setup.py): finished with status 'done'
+23:06:10  #9 73.36   Downloading antlr4-python3-runtime-4.9.1.tar.gz (173 kB)
+23:06:10  #9 73.40      ??????????????????????????????????????? 173.3/173.3 kB 5.4 MB/s eta 0:00:00
+23:06:10  #9 73.44   Preparing metadata (setup.py): started
+23:06:10  #9 73.68   Preparing metadata (setup.py): finished with status 'done'
+23:06:10  #9 73.73   Downloading antlr4-python3-runtime-4.9.tar.gz (114 kB)
+23:06:10  #9 73.75      ??????????????????????????????????????? 114.2/114.2 kB 5.8 MB/s eta 0:00:00
+23:06:10  #9 73.78   Preparing metadata (setup.py): started
+23:06:11  #9 74.01   Preparing metadata (setup.py): finished with status 'done'
+23:06:11  #9 74.02 INFO: pip is looking at multiple versions of hydra-core to determine which version is compatible with other requirements. This could take a while.
+23:06:11  #9 74.03 Collecting hydra-core>=1.1.0
+23:06:11  #9 74.06   Downloading hydra_core-1.3.0-py3-none-any.whl (153 kB)
+23:06:11  #9 74.12      ??????????????????????????????????????? 153.8/153.8 kB 2.6 MB/s eta 0:00:00
+23:06:11  #9 74.13 INFO: pip is looking at multiple versions of funcy to determine which version is compatible with other requirements. This could take a while.
+23:06:11  #9 74.13 INFO: pip is looking at multiple versions of flufl-lock to determine which version is compatible with other requirements. This could take a while.
+23:06:11  #9 74.14 Collecting flufl.lock>=5
+23:06:11  #9 74.19   Downloading flufl.lock-7.1-py3-none-any.whl (11 kB)
+23:06:11  #9 74.21 INFO: pip is looking at multiple versions of flatten-dict to determine which version is compatible with other requirements. This could take a while.
+23:06:11  #9 74.21 Collecting flatten-dict<1,>=0.4.1
+23:06:11  #9 74.24   Downloading flatten_dict-0.4.1-py2.py3-none-any.whl (9.5 kB)
+23:06:11  #9 74.26 INFO: pip is looking at multiple versions of dvclive to determine which version is compatible with other requirements. This could take a while.
+23:06:11  #9 74.26 Collecting dvclive>=0.10.0
+23:06:11  #9 74.31   Downloading dvclive-1.3.1-py3-none-any.whl (31 kB)
+23:06:11  #9 74.43   Downloading dvclive-1.3.0-py3-none-any.whl (31 kB)
+23:06:12  #9 74.55   Downloading dvclive-1.2.2-py3-none-any.whl (31 kB)
+23:06:12  #9 74.65   Downloading dvclive-1.2.1-py3-none-any.whl (31 kB)
+23:06:12  #9 74.77   Downloading dvclive-1.2.0-py3-none-any.whl (31 kB)
+23:06:12  #9 74.89   Downloading dvclive-1.1.2-py3-none-any.whl (30 kB)
+23:06:12  #9 75.01   Downloading dvclive-1.1.1-py3-none-any.whl (30 kB)
+23:06:12  #9 75.07 INFO: pip is looking at multiple versions of dvclive to determine which version is compatible with other requirements. This could take a while.
+23:06:12  #9 75.11   Downloading dvclive-1.1.0-py3-none-any.whl (30 kB)
+23:06:12  #9 75.22   Downloading dvclive-1.0.3-py3-none-any.whl (23 kB)
+23:06:12  #9 75.32   Downloading dvclive-1.0.2-py3-none-any.whl (23 kB)
+23:06:12  #9 75.42   Downloading dvclive-1.0.1-py3-none-any.whl (23 kB)
+23:06:12  #9 75.52   Downloading dvclive-1.0-py3-none-any.whl (23 kB)
+23:06:12  #9 75.59 INFO: This is taking longer than usual. You might need to provide the dependency resolver with stricter constraints to reduce runtime. See https://pip.pypa.io/warnings/backtracking for guidance. If you want to abort this run, press Ctrl + C.
+23:06:12  #9 75.64   Downloading dvclive-0.12.1-py3-none-any.whl (24 kB)
+23:06:13  #9 75.74   Downloading dvclive-0.12.0-py3-none-any.whl (24 kB)
+23:06:13  #9 75.84   Downloading dvclive-0.11.0-py3-none-any.whl (22 kB)
+23:06:13  #9 76.33 Collecting gitdb<5,>=4.0.1
+23:06:13  #9 76.37   Downloading gitdb-4.0.10-py3-none-any.whl (62 kB)
+23:06:13  #9 76.39      ???????????????????????????????????????? 62.7/62.7 kB 3.0 MB/s eta 0:00:00
+23:06:13  #9 76.51 Collecting amqp<6.0.0,>=5.0.9
+23:06:14  #9 76.54   Downloading amqp-5.1.1-py3-none-any.whl (50 kB)
+23:06:14  #9 76.55      ???????????????????????????????????????? 50.8/50.8 kB 6.8 MB/s eta 0:00:00
+23:06:14  #9 76.82 Collecting cffi>=1.9.1
+23:06:14  #9 76.86   Downloading cffi-1.15.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (441 kB)
+23:06:14  #9 76.93      ??????????????????????????????????????? 441.8/441.8 kB 6.0 MB/s eta 0:00:00
+23:06:14  #9 77.23 Collecting frozenlist>=1.1.1
+23:06:14  #9 77.26   Downloading frozenlist-1.3.3-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (149 kB)
+23:06:14  #9 77.28      ??????????????????????????????????????? 149.6/149.6 kB 5.6 MB/s eta 0:00:00
+23:06:15  #9 77.66 Collecting multidict<7.0,>=4.5
+23:06:15  #9 77.70   Downloading multidict-6.0.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (114 kB)
+23:06:15  #9 77.72      ??????????????????????????????????????? 114.5/114.5 kB 5.4 MB/s eta 0:00:00
+23:06:15  #9 77.77 Collecting async-timeout<5.0,>=4.0.0a3
+23:06:15  #9 77.80   Downloading async_timeout-4.0.2-py3-none-any.whl (5.8 kB)
+23:06:15  #9 77.85 Collecting aiosignal>=1.1.2
+23:06:15  #9 77.89   Downloading aiosignal-1.3.1-py3-none-any.whl (7.6 kB)
+23:06:15  #9 78.13 Collecting yarl<2.0,>=1.0
+23:06:15  #9 78.16   Downloading yarl-1.8.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (264 kB)
+23:06:15  #9 78.20      ??????????????????????????????????????? 264.0/264.0 kB 6.1 MB/s eta 0:00:00
+23:06:15  #9 78.29 Collecting pycparser
+23:06:15  #9 78.33   Downloading pycparser-2.21-py2.py3-none-any.whl (118 kB)
+23:06:15  #9 78.35      ??????????????????????????????????????? 118.7/118.7 kB 5.3 MB/s eta 0:00:00
+23:06:15  #9 78.50 Collecting prompt-toolkit
+23:06:15  #9 78.53   Downloading prompt_toolkit-3.0.36-py3-none-any.whl (386 kB)
+23:06:15  #9 78.59      ??????????????????????????????????????? 386.4/386.4 kB 6.3 MB/s eta 0:00:00
+23:06:15  #9 78.69 Collecting smmap<6,>=3.0.1
+23:06:16  #9 78.72   Downloading smmap-5.0.0-py3-none-any.whl (24 kB)
+23:06:16  #9 78.94 Collecting wcwidth
+23:06:16  #9 78.97   Downloading wcwidth-0.2.5-py2.py3-none-any.whl (30 kB)
+23:06:16  #9 79.17 Building wheels for collected packages: pyyaml, configobj, antlr4-python3-runtime, nanotime, future
+23:06:16  #9 79.17   Building wheel for pyyaml (pyproject.toml): started
+23:06:16  #9 79.58   Building wheel for pyyaml (pyproject.toml): finished with status 'done'
+23:06:16  #9 79.58   Created wheel for pyyaml: filename=PyYAML-5.4.1-cp310-cp310-linux_x86_64.whl size=45658 sha256=680f8e7e8f4eb43e51076ccd1d5d9c02c553b57c0d63c3d88420334623e6a542
+23:06:16  #9 79.58   Stored in directory: /root/.cache/pip/wheels/10/3f/c1/6feec52270653969575b83de934b04be56d7a9e961be5041ea
+23:06:16  #9 79.58   Building wheel for configobj (setup.py): started
+23:06:17  #9 79.92   Building wheel for configobj (setup.py): finished with status 'done'
+23:06:17  #9 79.92   Created wheel for configobj: filename=configobj-5.0.6-py3-none-any.whl size=34527 sha256=a3bc19a1f4008c58098b95a6be5d925d6919c0ad1874b5273570d392701b7159
+23:06:17  #9 79.92   Stored in directory: /root/.cache/pip/wheels/18/6b/e3/386d1b9bfd33a48af5b644471165c9b50df77af5923627e438
+23:06:17  #9 79.92   Building wheel for antlr4-python3-runtime (setup.py): started
+23:06:17  #9 80.27   Building wheel for antlr4-python3-runtime (setup.py): finished with status 'done'
+23:06:17  #9 80.27   Created wheel for antlr4-python3-runtime: filename=antlr4_python3_runtime-4.9.3-py3-none-any.whl size=144554 sha256=a0235cfb8e259d8cd6336e89ff4160723d66bfe203c0d3e28d6899388e624d2f
+23:06:17  #9 80.27   Stored in directory: /root/.cache/pip/wheels/48/6a/c2/acb58c7afdf57e4cddf5e1513f5a2d62aa8e98f82a00c76d7c
+23:06:17  #9 80.27   Building wheel for nanotime (setup.py): started
+23:06:17  #9 80.56   Building wheel for nanotime (setup.py): finished with status 'done'
+23:06:17  #9 80.56   Created wheel for nanotime: filename=nanotime-0.5.2-py3-none-any.whl size=2426 sha256=f90c395739b0ef9e902642ff105aeea38b6417297ac06fd4dd936437ce335649
+23:06:17  #9 80.56   Stored in directory: /root/.cache/pip/wheels/e9/ad/d3/2377fcca636781f0ccaaa49f21dd18ec1e1d8e64ba4725ac53
+23:06:17  #9 80.56   Building wheel for future (setup.py): started
+23:06:18  #9 81.09   Building wheel for future (setup.py): finished with status 'done'
+23:06:18  #9 81.09   Created wheel for future: filename=future-0.18.2-py3-none-any.whl size=491059 sha256=69621f9fd84ba44ba37f1a830f4d318226364e576a2a5c22e3e161aba3f635a0
+23:06:18  #9 81.09   Stored in directory: /root/.cache/pip/wheels/dc/16/09/eb08b4e34e6b638f113d2018cf0b22de1d8dca22a3a71873f7
+23:06:18  #9 81.10 Successfully built pyyaml configobj antlr4-python3-runtime nanotime future
+23:06:19  #9 82.00 Installing collected packages: wcwidth, voluptuous, pytz, pygtrie, pyasn1, nanotime, funcy, dictdiffer, commonmark, billiard, appdirs, antlr4-python3-runtime, zc.lockfile, vine, urllib3, typing-extensions, tqdm, tomlkit, threadpoolctl, tabulate, smmap, six, shtab, shortuuid, ruamel.yaml.clib, rsa, pyyaml, pyparsing, pygments, pycparser, psutil, prompt-toolkit, pathspec, packaging, numpy, networkx, multidict, joblib, jmespath, idna, future, fsspec, frozenlist, filelock, dvc-render, dpath, docutils, distro, diskcache, coverage, colorama, click, charset-normalizer, certifi, attrs, atpublic, async-timeout, yarl, scipy, ruamel.yaml, rich, requests, python-dateutil, pydot, omegaconf, grandalf, gitdb, flufl.lock, flatten-dict, dvc-objects, dulwich, configobj, click-repl, click-plugins, click-didyoumean, cffi, amqp, aiosignal, scikit-learn, pygit2, pandas, kombu, iterative-telemetry, hydra-core, gitpython, dvclive, dvc-data, cryptography, botocore, aiohttp, s3transfer, celery, asyncssh, aiohttp-retry, scmrepo, dvc-task, awscli, dvc-http, dvc
+23:06:46  #9 107.4 Successfully installed aiohttp-3.8.3 aiohttp-retry-2.8.3 aiosignal-1.3.1 amqp-5.1.1 antlr4-python3-runtime-4.9.3 appdirs-1.4.4 async-timeout-4.0.2 asyncssh-2.13.0 atpublic-3.1.1 attrs-22.2.0 awscli-1.27.9 billiard-3.6.4.0 botocore-1.29.9 celery-5.2.7 certifi-2022.12.7 cffi-1.15.1 charset-normalizer-2.1.1 click-8.1.3 click-didyoumean-0.3.0 click-plugins-1.1.1 click-repl-0.2.0 colorama-0.4.4 commonmark-0.9.1 configobj-5.0.6 coverage-6.5.0 cryptography-39.0.0 dictdiffer-0.9.0 diskcache-5.4.0 distro-1.8.0 docutils-0.16 dpath-2.1.3 dulwich-0.20.50 dvc-2.28.0 dvc-data-0.13.0 dvc-http-2.27.2 dvc-objects-0.5.0 dvc-render-0.0.11 dvc-task-0.1.2 dvclive-0.11.0 filelock-3.9.0 flatten-dict-0.4.2 flufl.lock-7.1.1 frozenlist-1.3.3 fsspec-2022.11.0 funcy-1.17 future-0.18.2 gitdb-4.0.10 gitpython-3.1.30 grandalf-0.6 hydra-core-1.3.1 idna-3.4 iterative-telemetry-0.0.5 jmespath-1.0.1 joblib-1.2.0 kombu-5.2.4 multidict-6.0.4 nanotime-0.5.2 networkx-2.8.8 numpy-1.23.4 omegaconf-2.3.0 packaging-22.0 pandas-1.5.1 pathspec-0.9.0 prompt-toolkit-3.0.36 psutil-5.9.4 pyasn1-0.4.8 pycparser-2.21 pydot-1.4.2 pygit2-1.11.1 pygments-2.14.0 pygtrie-2.5.0 pyparsing-3.0.9 python-dateutil-2.8.2 pytz-2022.7 pyyaml-5.4.1 requests-2.28.1 rich-13.0.1 rsa-4.7.2 ruamel.yaml-0.17.21 ruamel.yaml.clib-0.2.7 s3transfer-0.6.0 scikit-learn-1.1.3 scipy-1.10.0 scmrepo-0.1.1 shortuuid-1.0.11 shtab-1.5.8 six-1.16.0 smmap-5.0.0 tabulate-0.9.0 threadpoolctl-3.1.0 tomlkit-0.11.6 tqdm-4.64.1 typing-extensions-4.4.0 urllib3-1.26.13 vine-5.0.0 voluptuous-0.13.1 wcwidth-0.2.5 yarl-1.8.2 zc.lockfile-2.0
+23:06:46  #9 107.4 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
+23:06:48  #9 DONE 111.2s
+23:06:48  
+23:06:48  #10 exporting to image
+23:06:48  #10 exporting layers
+23:06:55  #10 exporting layers 6.4s done
+23:06:55  #10 writing image sha256:71229dedcff1dc15ebe0b26ad5c9ee7b54ba79637c1feb33263a4f2eee231528 done
+23:06:55  #10 naming to docker.io/asoldatenkov/mle-course:latest done
+23:06:55  #10 DONE 6.4s
+23:06:55  
+23:06:55  Use 'docker scan' to run Snyk tests against images to find vulnerabilities and learn how to fix them
+[Pipeline] bat
+23:06:55  
+23:06:55  C:\Users\User\.jenkins\workspace\mle-course-CI_dev>cd mle-course 
+23:06:55  
+23:06:55  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>docker-compose up -d 
+23:06:55  Container mle-course-web-1  Recreate
+23:06:56  Container mle-course-web-1  Recreated
+23:06:56  Container mle-course-web-1  Starting
+23:06:57  Container mle-course-web-1  Started
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checkout container logs)
+[Pipeline] dir
+23:06:57  Running in C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course
+[Pipeline] {
+[Pipeline] bat
+23:06:57  
+23:06:57  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>docker-compose up -d 
+23:06:58  Container mle-course-web-1  Running
+23:06:58  
+23:06:58  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>for /F %i in ('docker ps -qf "name=^mle-course-web-1"') do set containerId=%i 
+23:06:58  
+23:06:58  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>set containerId=a6def3b07718 
+23:06:58  
+23:06:58  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>echo a6def3b07718 
+23:06:58  a6def3b07718
+23:06:58  
+23:06:58  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>IF "a6def3b07718" == "" (echo "No container running" ) 
+23:06:58  
+23:06:58  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>ELSE ( 
+23:06:58  "ELSE" ?? ????? ???????? ??? ?????
+23:06:58  ????????, ??????? ?????? ??? ?????? ????.
+23:06:58  
+23:06:58  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>docker logs --tail 1000 -f a6def3b07718 
+23:06:58  2023-01-07 20:06:58,502 — __main__ — INFO — DataMaker is ready
+23:06:58  2023-01-07 20:06:58,515 — __main__ — INFO — X and y data is ready
+23:06:58  2023-01-07 20:06:58,527 — __main__ — INFO — /app/data/X_train.csv is saved
+23:06:58  2023-01-07 20:06:58,530 — __main__ — INFO — /app/data/y_train.csv is saved
+23:06:58  2023-01-07 20:06:58,532 — __main__ — INFO — /app/data/X_test.csv is saved
+23:06:58  2023-01-07 20:06:58,534 — __main__ — INFO — /app/data/y_test.csv is saved
+23:06:58  2023-01-07 20:06:58,534 — __main__ — INFO — Train and test data is ready
+23:06:59  2023-01-07 20:06:59,689 — __main__ — INFO — Model is ready
+23:06:59  2023-01-07 20:06:59,693 — __main__ — INFO — /app/experiments/scaler.sav is saved
+23:06:59  Accuracy: 0.8246753246753247
+23:06:59  2023-01-07 20:06:59,698 — __main__ — INFO — /app/experiments/log_reg.sav is saved
+23:07:00  2023-01-07 20:07:00,782 — __main__ — INFO — Predictor is ready
+23:07:00  Model has 0.8 score
+23:07:00  2023-01-07 20:07:00,819 — __main__ — INFO — /app/experiments/log_reg.sav passed func test test_1.json
+23:07:00  Model has 0.4 score
+23:07:00  2023-01-07 20:07:00,827 — __main__ — INFO — /app/experiments/log_reg.sav passed func test test_0.json
+23:07:02  2023-01-07 20:07:02,234 — preprocess — INFO — DataMaker is ready
+23:07:02  2023-01-07 20:07:02,245 — preprocess — INFO — X and y data is ready
+23:07:02  2023-01-07 20:07:02,246 — preprocess — INFO — DataMaker is ready
+23:07:02  2023-01-07 20:07:02,246 — preprocess — INFO — DataMaker is ready
+23:07:02  2023-01-07 20:07:02,253 — preprocess — INFO — /app/data/diabetes_X.csv is saved
+23:07:02  2023-01-07 20:07:02,253 — preprocess — INFO — /app/data/diabetes_X.csv is saved
+23:07:02  2023-01-07 20:07:02,254 — preprocess — INFO — DataMaker is ready
+23:07:02  2023-01-07 20:07:02,254 — preprocess — INFO — DataMaker is ready
+23:07:02  2023-01-07 20:07:02,254 — preprocess — INFO — DataMaker is ready
+23:07:02  2023-01-07 20:07:02,268 — preprocess — INFO — X and y data is ready
+23:07:02  2023-01-07 20:07:02,268 — preprocess — INFO — X and y data is ready
+23:07:02  2023-01-07 20:07:02,268 — preprocess — INFO — X and y data is ready
+23:07:02  2023-01-07 20:07:02,279 — preprocess — INFO — /app/data/X_train.csv is saved
+23:07:02  2023-01-07 20:07:02,279 — preprocess — INFO — /app/data/X_train.csv is saved
+23:07:02  2023-01-07 20:07:02,279 — preprocess — INFO — /app/data/X_train.csv is saved
+23:07:02  2023-01-07 20:07:02,281 — preprocess — INFO — /app/data/y_train.csv is saved
+23:07:02  2023-01-07 20:07:02,281 — preprocess — INFO — /app/data/y_train.csv is saved
+23:07:02  2023-01-07 20:07:02,281 — preprocess — INFO — /app/data/y_train.csv is saved
+23:07:02  2023-01-07 20:07:02,283 — preprocess — INFO — /app/data/X_test.csv is saved
+23:07:02  2023-01-07 20:07:02,283 — preprocess — INFO — /app/data/X_test.csv is saved
+23:07:02  2023-01-07 20:07:02,283 — preprocess — INFO — /app/data/X_test.csv is saved
+23:07:02  2023-01-07 20:07:02,284 — preprocess — INFO — /app/data/y_test.csv is saved
+23:07:02  2023-01-07 20:07:02,284 — preprocess — INFO — /app/data/y_test.csv is saved
+23:07:02  2023-01-07 20:07:02,284 — preprocess — INFO — /app/data/y_test.csv is saved
+23:07:02  2023-01-07 20:07:02,285 — preprocess — INFO — Train and test data is ready
+23:07:02  2023-01-07 20:07:02,285 — preprocess — INFO — Train and test data is ready
+23:07:02  2023-01-07 20:07:02,285 — preprocess — INFO — Train and test data is ready
+23:07:02  ...
+23:07:02  ----------------------------------------------------------------------
+23:07:02  Ran 3 tests in 0.053s
+23:07:02  
+23:07:02  OK
+23:07:03  2023-01-07 20:07:03,673 — train — INFO — Model is ready
+23:07:03  /usr/local/lib/python3.10/site-packages/sklearn/linear_model/_logistic.py:444: ConvergenceWarning: lbfgs failed to converge (status=1):
+23:07:03  STOP: TOTAL NO. of ITERATIONS REACHED LIMIT.
+23:07:03  
+23:07:03  Increase the number of iterations (max_iter) or scale the data as shown in:
+23:07:03      https://scikit-learn.org/stable/modules/preprocessing.html
+23:07:03  Please also refer to the documentation for alternative solver options:
+23:07:03      https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+23:07:03    n_iter_i = _check_optimize_result(
+23:07:03  2023-01-07 20:07:03,695 — train — INFO — /app/experiments/log_reg.sav is saved
+23:07:03  2023-01-07 20:07:03,705 — train — INFO — Model is ready
+23:07:03  2023-01-07 20:07:03,705 — train — INFO — Model is ready
+23:07:03  2023-01-07 20:07:03,712 — train — INFO — /app/experiments/scaler.sav is saved
+23:07:03  2023-01-07 20:07:03,712 — train — INFO — /app/experiments/scaler.sav is saved
+23:07:03  ..
+23:07:03  ----------------------------------------------------------------------
+23:07:03  Ran 2 tests in 0.050s
+23:07:03  
+23:07:03  OK
+23:07:04  Name                                Stmts   Miss  Cover   Missing
+23:07:04  -----------------------------------------------------------------
+23:07:04  src/logger.py                          24      0   100%
+23:07:04  src/preprocess.py                      58      7    88%   41-42, 49-51, 78-79
+23:07:04  src/train.py                           56      8    86%   48-50, 52-53, 70-72
+23:07:04  src/unit_tests/test_preprocess.py      20      0   100%
+23:07:04  src/unit_tests/test_training.py        18      0   100%
+23:07:04  -----------------------------------------------------------------
+23:07:04  TOTAL                                 176     15    91%
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Checkout coverage report)
+[Pipeline] dir
+23:07:04  Running in C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course
+[Pipeline] {
+[Pipeline] bat
+23:07:04  
+23:07:04  C:\Users\User\.jenkins\workspace\mle-course-CI_dev\mle-course>docker-compose logs -t --tail 10 
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.712790100Z OK
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.955898800Z Name                                Stmts   Miss  Cover   Missing
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.955981600Z -----------------------------------------------------------------
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.956149000Z src/logger.py                          24      0   100%
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.956199800Z src/preprocess.py                      58      7    88%   41-42, 49-51, 78-79
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.956213600Z src/train.py                           56      8    86%   48-50, 52-53, 70-72
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.956222000Z src/unit_tests/test_preprocess.py      20      0   100%
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.956229500Z src/unit_tests/test_training.py        18      0   100%
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.956235300Z -----------------------------------------------------------------
+23:07:04  mle-course-web-1  | 2023-01-07T20:07:03.956241300Z TOTAL                                 176     15    91%
+[Pipeline] }
+[Pipeline] // dir
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Push)
+[Pipeline] bat
+23:07:05  
+23:07:05  C:\Users\User\.jenkins\workspace\mle-course-CI_dev>docker push asoldatenkov/mle-course:latest 
+23:07:05  [2023-01-07T20:07:05.168794300Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+23:07:05  The push refers to repository [docker.io/asoldatenkov/mle-course]
+23:07:05  33b615a6af0d: Preparing
+23:07:05  02623bf83ee4: Preparing
+23:07:05  8ff7532a86d2: Preparing
+23:07:05  413bd4a2c223: Preparing
+23:07:05  f9ec282bb452: Preparing
+23:07:05  52cc52935146: Preparing
+23:07:05  ec3c4788435a: Preparing
+23:07:05  8a70d251b653: Preparing
+23:07:05  52cc52935146: Waiting
+23:07:05  ec3c4788435a: Waiting
+23:07:05  8a70d251b653: Waiting
+23:07:06  8ff7532a86d2: Layer already exists
+23:07:06  f9ec282bb452: Layer already exists
+23:07:06  413bd4a2c223: Layer already exists
+23:07:07  ec3c4788435a: Layer already exists
+23:07:07  52cc52935146: Layer already exists
+23:07:07  8a70d251b653: Layer already exists
+23:07:28  33b615a6af0d: Retrying in 5 seconds
+23:07:28  02623bf83ee4: Retrying in 5 seconds
+23:07:28  33b615a6af0d: Retrying in 4 seconds
+23:07:28  02623bf83ee4: Retrying in 4 seconds
+23:07:28  33b615a6af0d: Retrying in 3 seconds
+23:07:28  02623bf83ee4: Retrying in 3 seconds
+23:07:29  33b615a6af0d: Retrying in 2 seconds
+23:07:29  02623bf83ee4: Retrying in 2 seconds
+23:07:30  33b615a6af0d: Retrying in 1 second
+23:07:30  02623bf83ee4: Retrying in 1 second
+23:07:34  02623bf83ee4: Pushed
+23:09:10  33b615a6af0d: Pushed
+23:09:10  latest: digest: sha256:30f8a0cd4804aabfc618268b3b30125b140cfff9783f8d35e1646feb2cace53b size: 1999
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Declarative: Post Actions)
+[Pipeline] bat
+23:09:10  
+23:09:10  C:\Users\User\.jenkins\workspace\mle-course-CI_dev>docker logout 
+23:09:10  Removing login credentials for https://index.docker.io/v1/
+23:09:10  [2023-01-07T20:09:10.829875100Z][docker-credential-desktop][W] Windows version might not be up-to-date: The system cannot find the file specified.
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // timestamps
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+
+GitHub has been notified of this commit’s build result
+
+Finished: SUCCESS

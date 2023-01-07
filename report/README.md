@@ -25,3 +25,5 @@
 
 ## Результаты
 **Docker Image**: https://hub.docker.com/repository/docker/asoldatenkov/mle-course  
+**Логи CI/CD** находятся в папке с отчётом.  
+**Test coverage**: 91%
