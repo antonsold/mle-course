@@ -28,10 +28,14 @@ class DataMaker:
         self.log.info("DataMaker is ready")
 
     def get_data(self) -> bool:
+        # Reading data file, extracting features and target
         df = pd.read_csv(self.data_path)
         X, y = df.drop('Outcome', axis=1), df['Outcome']
+        # Saving features and target
         X.to_csv(self.X_path, index=True)
         y.to_csv(self.y_path, index=True)
+
+        # Checking whether files were successfully saved, adding names to config
         if os.path.isfile(self.X_path) and os.path.isfile(self.y_path):
             self.log.info("X and y data is ready")
             self.config["DATA"] = {'X_data': self.X_path,
@@ -43,12 +47,15 @@ class DataMaker:
 
     def split_data(self, test_size=TEST_SIZE) -> bool:
         self.get_data()
+        # Trying reading files, exiting on failure
         try:
             X = pd.read_csv(self.X_path, index_col=0)
             y = pd.read_csv(self.y_path, index_col=0)
         except FileNotFoundError:
             self.log.error(traceback.format_exc())
             sys.exit(1)
+
+        # Splitting data into train and test, saving
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_size, random_state=0)
         self.save_splitted_data(X_train, self.train_path[0])
@@ -68,6 +75,9 @@ class DataMaker:
             os.path.isfile(self.test_path[1])
 
     def save_splitted_data(self, df: pd.DataFrame, path: str) -> bool:
+        """
+        Helper method, drops index and saves given dataframe
+        """
         df = df.reset_index(drop=True)
         df.to_csv(path, index=True)
         self.log.info(f'{path} is saved')

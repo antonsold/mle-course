@@ -24,6 +24,8 @@ class Predictor:
         self.config = configparser.ConfigParser()
         self.log = logger.get_logger(__name__)
         self.config.read("config.ini")
+
+        # cmd test options
         self.parser = argparse.ArgumentParser(description="Model")
         self.parser.add_argument("-t",
                                  "--tests",
@@ -34,6 +36,8 @@ class Predictor:
                                  const="smoke",
                                  nargs="?",
                                  choices=["smoke", "func"])
+
+        # Reading train and test features and targets
         self.X_train = pd.read_csv(
             self.config["SPLIT_DATA"]["X_train"], index_col=0)
         self.y_train = pd.read_csv(
@@ -46,6 +50,8 @@ class Predictor:
 
     def predict(self) -> bool:
         args = self.parser.parse_args()
+
+        # Loading saved models
         try:
             with open(self.config["SCALER"]["PATH"], "rb") as scaler_f:
                 scaler = pickle.load(scaler_f)
@@ -55,6 +61,7 @@ class Predictor:
             self.log.error(traceback.format_exc())
             sys.exit(1)
         if args.tests == "smoke":
+            # Simple tests
             try:
                 self.X_test = scaler.transform(self.X_test)
                 score = classifier.score(self.X_test, self.y_test)
@@ -65,8 +72,12 @@ class Predictor:
             self.log.info(
                 f'{self.config["LOG_REG"]["path"]} passed smoke tests')
         elif args.tests == "func":
+            # Path to testcases in json format
             tests_path = os.path.join(os.getcwd(), "tests")
+            # Path to current experiment logs
             exp_path = os.path.join(os.getcwd(), "experiments")
+
+            # Running tests and printing scores
             for test in os.listdir(tests_path):
                 try:
                     data = pd.read_json(os.path.join(tests_path, test))
@@ -79,6 +90,8 @@ class Predictor:
                     sys.exit(1)
                 self.log.info(
                     f'{self.config["LOG_REG"]["path"]} passed func test {test}')
+
+                # Creating experiment info and saving with current timestamp
                 exp_data = {
                     "tests": args.tests,
                     "score": str(score),
@@ -91,6 +104,8 @@ class Predictor:
                 os.mkdir(exp_dir)
                 with open(os.path.join(exp_dir,"exp_config.yaml"), 'w') as exp_f:
                     yaml.safe_dump(exp_data, exp_f, sort_keys=False)
+
+                # Moving saved models and logs to current experiment folder
                 shutil.copy(os.path.join(os.getcwd(), "logfile.log"), os.path.join(exp_dir,"exp_logfile.log"))
                 shutil.copy(self.config["LOG_REG"]["path"], os.path.join(exp_dir, f'exp_{"LOG_REG"}.sav'))
         return True
